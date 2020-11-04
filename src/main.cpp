@@ -6,7 +6,7 @@
 #include <fstream>
 #include <gd.h>
 
-#define ITERATIONS 256 
+#define ITERATIONS 64
 
 using namespace std; 
 
