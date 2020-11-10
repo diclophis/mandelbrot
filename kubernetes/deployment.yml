@@ -67,6 +67,9 @@ spec:
           requests:
             memory: 100Mi
             cpu: 20m
+          limits:
+            memory: 300Mi
+            cpu: 5000m
         command:
         - "apache2"
         - "-D"

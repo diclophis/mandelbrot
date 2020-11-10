@@ -6,7 +6,7 @@
 #include <fstream>
 #include <gd.h>
 
-#define ITERATIONS 64
+#define ITERATIONS 42
 
 using namespace std; 
 
@@ -19,8 +19,8 @@ class Mandelbrot
    int maxiter;
    int modeX;
    int modeY;
-   float seadX;
-   float seadY;
+   long double seadX;
+   long double seadY;
    int scrX;
    int scrY;
    int iter;
@@ -36,15 +36,15 @@ class Mandelbrot
    gdImagePtr oldest;
    Mandelbrot(char*);
    ~Mandelbrot();
-   void Draw(float, float, float, float);
+   void Draw(long double, long double, long double, long double);
    private:
    void Iterate();
 };
 
 Mandelbrot::Mandelbrot (char *name)
 { 
-   modeX = 256;
-   modeY = 256;
+   modeX = 512;
+   modeY = 512;
 
    output = fopen(name, "wb");
 
@@ -75,29 +75,29 @@ Mandelbrot::~Mandelbrot ()
    gdImageDestroy(im);
 }
 
-void Mandelbrot::Draw (float leftX, float lowerY, float rightX, float upperY)
+void Mandelbrot::Draw (long double leftX, long double lowerY, long double rightX, long double upperY)
 {
 			
-   float sea1;
-   float sea2;
-   float sea3;
-   float sea4;
-   float aaa;
-   float bbb;
+   long double sea1;
+   long double sea2;
+   long double sea3;
+   long double sea4;
+   long double aaa;
+   long double bbb;
            
    int screenX;
    int screenY;
 
-   float one_divided_by_ninety = (1.0 / 90.0);
-   float right_x_minus_left_x = (rightX - leftX);
-   float upper_y_minus_lower_y = (upperY - lowerY);
+   long double one_divided_by_ninety = (1.0 / 90.0);
+   long double right_x_minus_left_x = (rightX - leftX);
+   long double upper_y_minus_lower_y = (upperY - lowerY);
 		   
    for (screenX=0; screenX<=modeX; screenX++) {
-      aaa = ((float)screenX / modeX);
+      aaa = ((long double)screenX / modeX);
       sea1 = ((aaa * (right_x_minus_left_x)) + leftX) * one_divided_by_ninety;
                	
       for (screenY=0; screenY<=modeY; screenY++) {
-         bbb = (modeY - (float)screenY) / modeY;
+         bbb = (modeY - (long double)screenY) / modeY;
          sea2 = ((bbb * (upper_y_minus_lower_y)) + lowerY) * one_divided_by_ninety;
 
          seadX = sea1;
@@ -116,18 +116,18 @@ void Mandelbrot::Draw (float leftX, float lowerY, float rightX, float upperY)
 
 void Mandelbrot::Iterate ()
 {   
-   float seaX = seadX;
-   float seaY = seadY;
+   long double seaX = seadX;
+   long double seaY = seadY;
 		
-   float X = seaX;
-   float Y = seaY;
+   long double X = seaX;
+   long double Y = seaY;
        
    int i = ITERATIONS;
        
-   float tempX;
-   float tempY;
+   long double tempX;
+   long double tempY;
        
-   float modulus = 0;
+   long double modulus = 0;
        
    do {
       tempX = X * X - Y * Y + seaX;
@@ -143,6 +143,17 @@ void Mandelbrot::Iterate ()
 
 int main (int argc, char* argv[])
 {
+  long double a,b,c,d;
+
+  //sscanf(argv[1], "%Lf", &a);
+  //sscanf(argv[2], "%Lf", &b);
+  //sscanf(argv[3], "%Lf", &c);
+  //sscanf(argv[4], "%Lf", &d);
+  a = strtold(argv[1], NULL);
+  b = strtold(argv[2], NULL);
+  c = strtold(argv[3], NULL);
+  d = strtold(argv[4], NULL);
+
    Mandelbrot* fractal = new Mandelbrot(argv[5]);
-   fractal->Draw(atof(argv[1]),atof(argv[2]),atof(argv[3]),atof(argv[4]));
+   fractal->Draw(a, b, c, d); //atof(argv[1]),atof(argv[2]),atof(argv[3]),atof(argv[4]));
 }
