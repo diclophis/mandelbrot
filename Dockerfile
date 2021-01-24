@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
@@ -10,7 +10,7 @@ RUN apt-get upgrade -y
 RUN apt-get install -y apache2 apache2-utils libapache2-mod-php
 RUN apt-get install -y build-essential libgd-dev libjpeg-dev libpng-dev libz-dev
 
-RUN a2enmod php7.2 headers rewrite
+RUN a2enmod php7.4 headers rewrite
 RUN a2dissite 000-default
 RUN echo "Listen 8080" | tee /etc/apache2/ports.conf
 

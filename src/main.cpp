@@ -6,7 +6,8 @@
 #include <fstream>
 #include <gd.h>
 
-#define ITERATIONS 42
+#define ITERATIONS 64
+#define BITSBITS 256
 
 using namespace std; 
 
@@ -43,8 +44,8 @@ class Mandelbrot
 
 Mandelbrot::Mandelbrot (char *name)
 { 
-   modeX = 512;
-   modeY = 512;
+   modeX = BITSBITS;
+   modeY = BITSBITS;
 
    output = fopen(name, "wb");
 
@@ -77,7 +78,6 @@ Mandelbrot::~Mandelbrot ()
 
 void Mandelbrot::Draw (long double leftX, long double lowerY, long double rightX, long double upperY)
 {
-			
    long double sea1;
    long double sea2;
    long double sea3;
@@ -106,7 +106,6 @@ void Mandelbrot::Draw (long double leftX, long double lowerY, long double rightX
          scrY = screenY;           	
    
 	       Iterate();
-  
       }
    }
 
@@ -145,15 +144,11 @@ int main (int argc, char* argv[])
 {
   long double a,b,c,d;
 
-  //sscanf(argv[1], "%Lf", &a);
-  //sscanf(argv[2], "%Lf", &b);
-  //sscanf(argv[3], "%Lf", &c);
-  //sscanf(argv[4], "%Lf", &d);
   a = strtold(argv[1], NULL);
   b = strtold(argv[2], NULL);
   c = strtold(argv[3], NULL);
   d = strtold(argv[4], NULL);
 
-   Mandelbrot* fractal = new Mandelbrot(argv[5]);
-   fractal->Draw(a, b, c, d); //atof(argv[1]),atof(argv[2]),atof(argv[3]),atof(argv[4]));
+  Mandelbrot* fractal = new Mandelbrot(argv[5]);
+  fractal->Draw(a, b, c, d);
 }

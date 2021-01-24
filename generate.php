@@ -2,17 +2,19 @@
 
 list($left_x, $lower_y, $right_x, $upper_y) = (explode(',', $_REQUEST['BBOX']));
 
-settype($left_x, "double");
-settype($lower_y, "double");
-settype($right_x, "double");
-settype($upper_y, "double");
-
-//$tmp = sprintf("/tmp/%.99.%.99f.%g.%g.jpeg", $left_x, $lower_y, $right_x, $upper_y);
-$tmp = sprintf("/tmp/%.99f_%.99f_%.99f_%.99f.jpeg", $left_x, $lower_y, $right_x, $upper_y);
+$tmp = sprintf("/tmp/%s_%s_%s_%s.jpeg", $left_x, $lower_y, $right_x, $upper_y);
 
 if (!file_exists($tmp)) {
-  $cmd = sprintf("/var/www/html/jbardin-fractal %.99f %.99f %.99f %.99f %s", ($left_x), ($lower_y), ($right_x), ($upper_y), $tmp);
-  system($cmd);
+  $cmd = "/var/www/html/jbardin-fractal";
+  $cwd = '/tmp';
+  $env = array();
+  $descriptorspec = array(
+     0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+     1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+     2 => array("pipe", "w") // stderr is a file to write to
+  );
+  $process = proc_open(array($cmd, $left_x, $lower_y, $right_x, $upper_y, $tmp), $descriptorspec, $pipes, $cwd, $env);
+  $return_value = proc_close($process);
 }
 
 header('Content-Type: image/jpeg');
