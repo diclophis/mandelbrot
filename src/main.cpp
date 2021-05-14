@@ -6,8 +6,8 @@
 #include <fstream>
 #include <gd.h>
 
-#define ITERATIONS 64
-#define BITSBITS 256
+#define ITERATIONS 1024
+#define BITSBITS 512
 
 using namespace std; 
 
@@ -88,7 +88,7 @@ void Mandelbrot::Draw (long double leftX, long double lowerY, long double rightX
    int screenX;
    int screenY;
 
-   long double one_divided_by_ninety = (1.0 / 90.0);
+   long double one_divided_by_ninety = (1.0 / 70.0);
    long double right_x_minus_left_x = (rightX - leftX);
    long double upper_y_minus_lower_y = (upperY - lowerY);
 		   
