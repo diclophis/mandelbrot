@@ -27,7 +27,7 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-interval-seconds: "300"
 spec:
   rules:
-  - host: "mandelbrot.bardin.haus"
+  - host: $(ROUTE_HOST) 
     http:
       paths:
       - path: /*

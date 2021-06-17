@@ -1,3 +1,23 @@
 resources:
 - deployment.yaml
 - configmap.yaml
+
+
+#configMapGenerator:
+#- name: template-vars
+#  files:
+#  - templateVars.env
+
+configMapGenerator:
+- name: template-vars
+  literals:
+    - ROUTE_HOST="fartskiy"
+
+vars:
+- name: ROUTE_HOST
+  objref:
+    kind: ConfigMap
+    name: template-vars
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.ROUTE_HOST

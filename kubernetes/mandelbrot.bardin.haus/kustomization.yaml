@@ -5,8 +5,11 @@ kind: Kustomization
 resources:
 - ../base
 
-patches:
-- target:
-    kind: Ingress
-    name: mandelbrot-bardin-haus-vhost
-  path: ingress-patch.json
+#patches:
+#- target:
+#    kind: Ingress
+#    name: mandelbrot-bardin-haus-vhost
+#  path: ingress-patch.json
+
+patchesStrategicMerge:
+- template-vars.yaml
