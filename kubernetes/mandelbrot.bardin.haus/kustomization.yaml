@@ -3,10 +3,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- kubernetes
+- ../base
 
 patches:
 - target:
     kind: Ingress
-    name: my-ingress
+    name: mandelbrot-bardin-haus-vhost
   path: ingress-patch.json
