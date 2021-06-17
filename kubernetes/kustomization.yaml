@@ -4,19 +4,6 @@ metadata:
   name: mandelbrot-stack
 
 
-namePrefix: mandelbrot-bardin-haus
-
-commonLabels:
-  app-common: helloCommon
-
-commonAnnotations:
-  annotation-common: helloCommon
-
-
-
-#configurations:
-#- transformer_config.yaml
 
 resources:
 - mandelbrot.bardin.haus
-

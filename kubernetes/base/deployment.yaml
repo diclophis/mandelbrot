@@ -3,8 +3,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mandelbrot-bardin-haus-app
-  labels:
-  annotations:
 spec:
   ports:
   - port: 8080
@@ -12,38 +10,10 @@ spec:
   selector:
     name: mandelbrot
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: mandelbrot-bardin-haus-vhost
-  labels:
-  annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/load-balancer-attributes: "idle_timeout.timeout_seconds=121"
-    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "120"
-    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "300"
-spec:
-  rules:
-  - host: $(ROUTE_HOST) 
-    http:
-      paths:
-      - path: /*
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: mandelbrot-bardin-haus-app
-            port:
-              number: 8080
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mandelbrot
-  labels:
 spec:
   revisionHistoryLimit: 5
   strategy:
@@ -67,15 +37,12 @@ spec:
           name: mandelbrot-config
       - name: cache-volume
         emptyDir: {}
-        #hostPath:
-        #  path: /var/tmp/mandelbrot
-        #  type: DirectoryOrCreate
       securityContext:
         fsGroup: 33
       containers:
       - name: mandelbrot-bardin-haus-app
-        #image: mandelbrot:latest
-        image: 805165820212.dkr.ecr.us-west-2.amazonaws.com/mavencraft:mandelbrot-008
+        image: mandelbrot:latest
+        #image: 805165820212.dkr.ecr.us-west-2.amazonaws.com/mavencraft:mandelbrot-008
         imagePullPolicy: IfNotPresent
         volumeMounts: 
         - mountPath: /var/run/apache2
@@ -101,22 +68,8 @@ spec:
         env: &1
         - name: APP_ENV
           value: production
----
-apiVersion: autoscaling/v2beta2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: "mandelbrot-hpa"
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: "mandelbrot"
-  minReplicas: 1
-  maxReplicas: 32
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 33
+        - name: SERVER_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: template-vars
+              key: SERVER_NAME

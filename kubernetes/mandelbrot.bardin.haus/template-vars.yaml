@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: template-vars
 data:
-  ROUTE_HOST2: "bipsky"
+  SERVER_NAME: "bipsky"

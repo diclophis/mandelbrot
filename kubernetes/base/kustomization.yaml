@@ -1,23 +1,27 @@
+namePrefix: mandelbrot-bardin-haus
+
+commonLabels:
+  app-common: helloCommon
+
+commonAnnotations:
+  annotation-common: helloCommon
+
 resources:
 - deployment.yaml
 - configmap.yaml
-
-
-#configMapGenerator:
-#- name: template-vars
-#  files:
-#  - templateVars.env
+- ingress.yaml
+- hpa.yaml
 
 configMapGenerator:
 - name: template-vars
   literals:
-    - ROUTE_HOST="fartskiy"
+  - SERVER_NAME=
 
 vars:
-- name: ROUTE_HOST
+- name: SERVER_NAME
   objref:
     kind: ConfigMap
     name: template-vars
     apiVersion: v1
   fieldref:
-    fieldpath: data.ROUTE_HOST
+    fieldpath: data.SERVER_NAME
