@@ -10,7 +10,7 @@ RUN apt-get upgrade -y
 RUN apt-get install -y apache2 apache2-utils libapache2-mod-php
 RUN apt-get install -y build-essential libgd-dev libjpeg-dev libpng-dev libz-dev
 
-RUN a2enmod php7.4 headers rewrite
+RUN a2enmod php7.4 headers rewrite expires cache
 RUN a2dissite 000-default
 RUN echo "Listen 8080" | tee /etc/apache2/ports.conf
 
@@ -21,20 +21,14 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_RUN_DIR /var/run/apache2
 
-ADD mandelbrot.conf /etc/apache2/sites-available/
+RUN echo "ServerName container" > /etc/apache2/sites-available/mandelbrot.conf
 RUN a2ensite mandelbrot
 
-ADD OpenLayers.js generate.php index.html src /var/www/html/
-
-#RUN grep -Rn gdImageCreate /usr /lib
+ADD src /var/www/html/
 
 RUN cd /var/www/html && bash make.sh
 
-#ADD index.php libWordSearch.php prototype.js words /var/www/html/
-#RUN mkdir -p /var/www/html/wikis; chown www-data /var/www/html/wikis
-#RUN htpasswd -cb /etc/apache2/webdav.password guest guest
-#RUN chown root:www-data /etc/apache2/webdav.password
-#RUN chmod 640 /etc/apache2/webdav.password
+ADD OpenLayers.js generate.php index.html /var/www/html/
 
 RUN apache2 -t
 

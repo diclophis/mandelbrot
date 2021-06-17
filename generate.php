@@ -2,11 +2,11 @@
 
 list($left_x, $lower_y, $right_x, $upper_y) = (explode(',', $_REQUEST['BBOX']));
 
-$tmp = sprintf("/tmp/%s_%s_%s_%s.jpeg", $left_x, $lower_y, $right_x, $upper_y);
+$tmp = sprintf("/var/tmp/mandelbrot/%s_%s_%s_%s.jpeg", $left_x, $lower_y, $right_x, $upper_y);
 
 if (!file_exists($tmp)) {
   $cmd = "/var/www/html/jbardin-fractal";
-  $cwd = '/tmp';
+  $cwd = '/var/tmp/mandelbrot';
   $env = array();
   $descriptorspec = array(
      0 => array("pipe", "r"),  // stdin is a pipe that the child will read from

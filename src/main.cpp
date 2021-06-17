@@ -6,7 +6,7 @@
 #include <fstream>
 #include <gd.h>
 
-#define ITERATIONS 1024
+#define ITERATIONS 2048
 #define BITSBITS 512
 
 using namespace std; 

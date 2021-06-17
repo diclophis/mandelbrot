@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+data:
+  mandelbrot.conf: |
+    ServerName ${SERVER_NAME?=mandelbrot.bardin.haus}
+    ErrorLog /dev/stdout
+    TransferLog /dev/stdout
+    <VirtualHost *:8080>
+      ServerName https://${SERVER_NAME?=mandelbrot.bardin.haus}
+      ServerAdmin webmaster@localhost
+      DocumentRoot /var/www/html
+      #Header set Access-Control-Allow-Origin "*.*"
+      ErrorLog /dev/stdout
+      TransferLog /dev/stdout
+      KeepAlive Off
+      ExpiresActive On
+      ExpiresDefault "access plus 1 hour"
+      Header append Cache-Control "public"
+    </VirtualHost>
+    <IfModule mpm_prefork_module>
+        ServerLimit 4
+        StartServers 4
+        MaxClients 4
+        MaxRequestWorkers 4
+    </IfModule>
+kind: ConfigMap
+metadata:
+  name: mandelbrot-config
