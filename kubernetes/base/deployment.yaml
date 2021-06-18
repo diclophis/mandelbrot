@@ -1,42 +1,30 @@
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: mandelbrot-bardin-haus-app
-spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-  selector:
-    name: mandelbrot
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mandelbrot
+  name: http-api
 spec:
   revisionHistoryLimit: 5
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 0
-  replicas: 1
   selector:
     matchLabels:
-      name: mandelbrot
+      name: http-api
   template:
     metadata:
       labels:
-        name: mandelbrot
+        name: http-api
     spec:
       volumes:
       - name: run
         emptyDir: {}
-      - name: mandelbrot-config
-        configMap:
-          name: mandelbrot-config
       - name: cache-volume
         emptyDir: {}
+      - name: apache-config
+        configMap:
+          name: apache-config
       securityContext:
         fsGroup: 33
       containers:
@@ -47,11 +35,11 @@ spec:
         volumeMounts: 
         - mountPath: /var/run/apache2
           name: run
-        - name: "mandelbrot-config"
-          mountPath: "/etc/apache2/sites-available/mandelbrot.conf"
-          subPath: mandelbrot.conf
         - mountPath: /var/tmp/mandelbrot
           name: cache-volume
+        - mountPath: /etc/apache2/sites-available/mandelbrot.conf
+          name: apache-config
+          subPath: mandelbrot.conf
         ports:
         - containerPort: 8080
         resources:
@@ -66,10 +54,8 @@ spec:
         - "-D"
         - "FOREGROUND"
         env: &1
-        - name: APP_ENV
-          value: production
         - name: SERVER_NAME
           valueFrom:
             configMapKeyRef:
-              name: template-vars
+              name: overlay-vars
               key: SERVER_NAME

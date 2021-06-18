@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mandelbrot-bardin-haus-vhost
+  name: http-api
   labels:
   annotations:
     kubernetes.io/ingress.class: alb
@@ -21,7 +21,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: mandelbrot-bardin-haus-app
+            name: http-api
             port:
               number: 8080
 

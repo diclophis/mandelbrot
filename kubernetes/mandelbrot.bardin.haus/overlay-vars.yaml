@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: overlay-vars
+data:
+  SERVER_NAME: "mandelbrot.bardin.haus"

@@ -1,10 +1,14 @@
-namePrefix: mandelbrot-bardin-haus
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namePrefix: mandelbrot-
 
 commonLabels:
-  app-common: helloCommon
+  app: mandelbrot
 
 commonAnnotations:
-  annotation-common: helloCommon
+  common: hello
 
 resources:
 - deployment.yaml
@@ -13,7 +17,7 @@ resources:
 - hpa.yaml
 
 configMapGenerator:
-- name: template-vars
+- name: overlay-vars
   literals:
   - SERVER_NAME=
 
@@ -21,7 +25,7 @@ vars:
 - name: SERVER_NAME
   objref:
     kind: ConfigMap
-    name: template-vars
+    name: overlay-vars
     apiVersion: v1
   fieldref:
     fieldpath: data.SERVER_NAME

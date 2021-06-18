@@ -2,12 +2,12 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: "mandelbrot-hpa"
+  name: http-api
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: "mandelbrot"
+    name: http-api
   minReplicas: 1
   maxReplicas: 32
   metrics:
