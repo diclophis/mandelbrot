@@ -4,6 +4,7 @@ kind: Service
 metadata:
   name: http-api
 spec:
+  type: NodePort
   ports:
   - port: 8080
     protocol: TCP

@@ -5,13 +5,13 @@ metadata:
   name: http-api
   labels:
   annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/load-balancer-attributes: "idle_timeout.timeout_seconds=121"
-    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "120"
-    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "300"
+    #kubernetes.io/ingress.class: alb
+    #alb.ingress.kubernetes.io/scheme: internet-facing
+    #alb.ingress.kubernetes.io/target-type: ip
+    #alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    #alb.ingress.kubernetes.io/load-balancer-attributes: "idle_timeout.timeout_seconds=121"
+    #alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "120"
+    #alb.ingress.kubernetes.io/healthcheck-interval-seconds: "300"
 spec:
   rules:
   - host: $(SERVER_NAME) 

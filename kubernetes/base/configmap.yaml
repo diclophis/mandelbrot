@@ -9,7 +9,7 @@ data:
       ServerName https://${SERVER_NAME}
       ServerAdmin webmaster@localhost
       DocumentRoot /var/www/html
-      #Header set Access-Control-Allow-Origin "*.*"
+      Header set Access-Control-Allow-Origin "${SERVER_NAME}"
       ErrorLog /dev/stdout
       TransferLog /dev/stdout
       KeepAlive Off
