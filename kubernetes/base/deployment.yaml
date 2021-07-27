@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-api
+spec:
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      name: http-api
+  template:
+    metadata:
+      labels:
+        name: http-api
+    spec:
+      volumes:
+      - name: run
+        emptyDir: {}
+      - name: cache-volume
+        emptyDir: {}
+      - name: apache-config
+        configMap:
+          name: apache-config
+      securityContext:
+        fsGroup: 33
+      containers:
+      - name: mandelbrot-bardin-haus-app
+        image: mandelbrot:latest
+        imagePullPolicy: IfNotPresent
+        volumeMounts: 
+        - mountPath: /var/run/apache2
+          name: run
+        - mountPath: /var/tmp/mandelbrot
+          name: cache-volume
+        - mountPath: /etc/apache2/sites-available/mandelbrot.conf
+          name: apache-config
+          subPath: mandelbrot.conf
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 10m
+          limits:
+            memory: 200Mi
+            cpu: 1000m
+        command:
+        - "apache2"
+        - "-D"
+        - "FOREGROUND"
+        env: &1
+        - name: SERVER_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: overlay-vars
+              key: SERVER_NAME

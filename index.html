@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <script src="OpenLayers.js"></script>
+  </head>
+  <body style="overflow: hidden; background-color: #81ff00;">
+    <div>
+      <h1 style="margin: 0 0 1em 0;">
+        <a href="index.html">Mandelbrot Viewer</a>
+        | <a href="index.html" id="permalink">Permalink to this location</a>
+      </h1>
+    </div>
+    <div id="map" style="width: 100%; height: 100%; position: absolute; overflow: hidden;"></div>
+    <script defer="defer" type="text/javascript">
+      var mandelbrot_grid = new OpenLayers.Layer.WMS("Mandelbrot Grid", "https://mandelbrot.devops-detective.agency/generate.php", {numZoomLevels: 128});
+      var map = new OpenLayers.Map('map', {numZoomLevels: 128});
+      map.addControl(new OpenLayers.Control.Permalink($('permalink')));
+      map.addLayer(mandelbrot_grid);
+      if (!map.getCenter()) map.zoomTo(2);
+    </script>
+  </body>
+</html>
