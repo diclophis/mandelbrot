@@ -5,11 +5,9 @@
     <script src="OpenLayers.js"></script>
   </head>
   <body style="overflow: hidden; background-color: #81ff00;">
-    <div>
-      <h1 style="margin: 0 0 1em 0;">
-        <a href="index.html">Mandelbrot Viewer</a>
-        | <a href="index.html" id="permalink">Permalink to this location</a>
-      </h1>
+    <div style="position: absolute; z-index: 10000; float: right; margin: 1em 1em; padding: 1em 1em; right: 0; background-color: rgba(200, 200, 200, 0.66); border-radius: 1em; border: 1px solid black;">
+      <a href="index.html">Mandelbrot Viewer</a>
+      | <a href="index.html" id="permalink">Permalink</a>
     </div>
     <div id="map" style="width: 100%; height: 100%; position: absolute; overflow: hidden;"></div>
     <script defer="defer" type="text/javascript">
