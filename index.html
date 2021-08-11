@@ -13,7 +13,7 @@
     </div>
     <div id="map" style="width: 100%; height: 100%; position: absolute; overflow: hidden;"></div>
     <script defer="defer" type="text/javascript">
-      var mandelbrot_grid = new OpenLayers.Layer.WMS("Mandelbrot Grid", "https://mandelbrot.devops-detective.agency/generate.php", {numZoomLevels: 128});
+      var mandelbrot_grid = new OpenLayers.Layer.WMS("Mandelbrot Grid", "/generate.php", {numZoomLevels: 128});
       var map = new OpenLayers.Map('map', {numZoomLevels: 128});
       map.addControl(new OpenLayers.Control.Permalink($('permalink')));
       map.addLayer(mandelbrot_grid);
