@@ -5,9 +5,10 @@
 #include <iostream>
 #include <fstream>
 #include <gd.h>
+#include <thread>
+#include <chrono>
 
-#define ITERATIONS 2048
-#define BITSBITS 512
+#define BITSBITS 256
 
 using namespace std; 
 
@@ -37,9 +38,9 @@ class Mandelbrot
    gdImagePtr oldest;
    Mandelbrot(char*);
    ~Mandelbrot();
-   void Draw(long double, long double, long double, long double);
+   void Draw(long double, long double, long double, long double, long double);
    private:
-   void Iterate();
+   void Iterate(long double);
 };
 
 Mandelbrot::Mandelbrot (char *name)
@@ -76,7 +77,7 @@ Mandelbrot::~Mandelbrot ()
    gdImageDestroy(im);
 }
 
-void Mandelbrot::Draw (long double leftX, long double lowerY, long double rightX, long double upperY)
+void Mandelbrot::Draw (long double z, long double leftX, long double lowerY, long double rightX, long double upperY)
 {
    long double sea1;
    long double sea2;
@@ -105,7 +106,7 @@ void Mandelbrot::Draw (long double leftX, long double lowerY, long double rightX
          scrX = screenX;
          scrY = screenY;           	
    
-	       Iterate();
+	       Iterate(z);
       }
    }
 
@@ -113,7 +114,7 @@ void Mandelbrot::Draw (long double leftX, long double lowerY, long double rightX
    fclose(output);
 }
 
-void Mandelbrot::Iterate ()
+void Mandelbrot::Iterate (long double z)
 {   
    long double seaX = seadX;
    long double seaY = seadY;
@@ -121,7 +122,7 @@ void Mandelbrot::Iterate ()
    long double X = seaX;
    long double Y = seaY;
        
-   int i = ITERATIONS;
+   int i = (int)z;
        
    long double tempX;
    long double tempY;
@@ -142,13 +143,16 @@ void Mandelbrot::Iterate ()
 
 int main (int argc, char* argv[])
 {
-  long double a,b,c,d;
+  //std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
-  a = strtold(argv[1], NULL);
-  b = strtold(argv[2], NULL);
-  c = strtold(argv[3], NULL);
-  d = strtold(argv[4], NULL);
+  long double z,a,b,c,d;
 
-  Mandelbrot* fractal = new Mandelbrot(argv[5]);
-  fractal->Draw(a, b, c, d);
+  z = strtold(argv[1], NULL);
+  a = strtold(argv[2], NULL);
+  b = strtold(argv[3], NULL);
+  c = strtold(argv[4], NULL);
+  d = strtold(argv[5], NULL);
+
+  Mandelbrot* fractal = new Mandelbrot(argv[6]);
+  fractal->Draw(z, a, b, c, d);
 }

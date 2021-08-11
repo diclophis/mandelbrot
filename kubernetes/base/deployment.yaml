@@ -47,7 +47,7 @@ spec:
             cpu: 10m
           limits:
             memory: 200Mi
-            cpu: 1000m
+            cpu: 4000m
         command:
         - "apache2"
         - "-D"

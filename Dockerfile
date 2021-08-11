@@ -29,6 +29,8 @@ ADD src /var/www/html/
 RUN cd /var/www/html && bash make.sh
 
 ADD OpenLayers.js generate.php index.html /var/www/html/
+ADD theme /var/www/html/theme
+ADD img /var/www/html/img
 
 RUN apache2 -t
 
