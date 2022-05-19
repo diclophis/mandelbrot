@@ -12,16 +12,12 @@ data:
       Header set Access-Control-Allow-Origin "${SERVER_NAME}"
       ErrorLog /dev/stdout
       TransferLog /dev/stdout
-      KeepAlive Off
-      ExpiresActive On
-      ExpiresDefault "access plus 1 hour"
-      Header append Cache-Control "public"
     </VirtualHost>
     <IfModule mpm_prefork_module>
-      ServerLimit 32
       StartServers 32
-      MaxClients 32
+      ServerLimit 32
       MaxRequestWorkers 32
+      ListenBackLog 8192
     </IfModule>
 kind: ConfigMap
 metadata:
